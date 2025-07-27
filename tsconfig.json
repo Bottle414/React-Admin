@@ -14,7 +14,7 @@
 		"resolveJsonModule": true, // 支持导入 .json
 		"isolatedModules": true, // 每个文件作为独立模块
 		"noEmit": true, // 不输出编译结果（交由 Vite 处理）
-		"jsx": "react-jsx" // 使用 React 17+ 的 JSX 转换（不需要引入 React）
+		"jsx": "react-jsx", // 使用 React 17+ 的 JSX 转换（不需要引入 React）
 	},
 	"include": ["src"], // 要包含的目录
 }
