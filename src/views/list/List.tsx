@@ -5,7 +5,7 @@ import './List.css'
 
 type Types = 'add' | 'remove' | 'edit' | 'clear'
 interface ActionType {
-    type: Types,
+    type: Types
     item?: number
 }
 
@@ -42,7 +42,7 @@ function listReducer(listItems: number[], action: ActionType) {
     switch (action.type) {
         case 'add':
             return produce(listItems, (draft) => {
-                draft.push(Math.random())
+                draft.push(action.item || 0)
             })
         case 'remove':
             return produce(listItems, (draft) => {
@@ -64,11 +64,15 @@ function listReducer(listItems: number[], action: ActionType) {
 export function List() {
     const [listItems, dispatch] = useReducer(listReducer, [1, 2, 3])
     const { Button } = useGlobalComponents()
+    const [text, setText] = useState(0)
 
-    const handleAddList = () => {
+    const handleAddList = (addItem: number) => {
         dispatch({
-            type: 'add'
+            type: 'add',
+            item: addItem
         })
+
+        setText(0)
     }
 
     const handleRemoveList = (deleteItem: number) => {
@@ -102,25 +106,9 @@ export function List() {
                             width="50px"
                             height="30px"
                             type="plain"
-                            onClick={handleAddList}
-                        >
-                            添加+
-                        </Button>
-                        <Button
-                            width="50px"
-                            height="30px"
-                            type="plain"
                             onClick={handleEditList}
                         >
                             编辑
-                        </Button>
-                        <Button
-                            width="50px"
-                            height="30px"
-                            type="plain"
-                            onClick={handleClearList}
-                        >
-                            清空
                         </Button>
                         <Button
                             width="50px"
@@ -133,6 +121,27 @@ export function List() {
                     </div>
                 </div>
             ))}
+            <div className="common-group" style={{
+                marginTop: '40px'
+            }}>
+                <input type="number" placeholder='Please Input...' value={text} onChange={(e) => setText(e.target.value)}/>
+                <Button
+                    width="50px"
+                    height="30px"
+                    type="plain"
+                    onClick={() => handleAddList(text)}
+                >
+                    添加+
+                </Button>
+                <Button
+                    width="50px"
+                    height="30px"
+                    type="plain"
+                    onClick={handleClearList}
+                >
+                    清空
+                </Button>
+            </div>
         </>
     )
 }
