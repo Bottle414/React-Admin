@@ -7,7 +7,10 @@
 }
 
 .header {
+    display: flex;
     width: var(--header-width);
     height: var(--head-height);
     background-color: var(--header-bg);
+    align-items: center;
+    padding-inline-start: 10px;
 }

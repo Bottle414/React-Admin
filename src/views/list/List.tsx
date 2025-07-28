@@ -1,6 +1,7 @@
 import { useGlobalComponents } from '../../components/GlobalProvider'
 import { produce } from 'immer'
 import { useReducer, useState } from 'react'
+import { useImmer, useImmerReducer } from 'use-immer'
 import './List.css'
 
 type Types = 'add' | 'remove' | 'edit' | 'clear'
@@ -9,9 +10,15 @@ interface ActionType {
     item?: number
 }
 
+// hook 不能在组件外使用
+// const { Button } = useGlobalComponents()
+
+/**
+ * immer + state
+ */
 export function ListWithState() {
-    const [listItems, setListItems] = useState([1, 2, 3])
     const { Button } = useGlobalComponents()
+    const [listItems, setListItems] = useState([1, 2, 3])
 
     const handleClick = () => {
         setListItems(
@@ -38,6 +45,39 @@ export function ListWithState() {
     )
 }
 
+/**
+ * use-immer + state
+ */
+export function ListWithImmerState() {
+    const [listItems, setListItems] = useImmer([1, 2, 3])
+    const { Button } = useGlobalComponents()
+
+    const handleClick = () => {
+        setListItems((draft) => {
+            draft.push(Math.random())
+        })
+    }
+
+    return (
+        <>
+            {listItems.map((item) => (
+                <div key={item}>{item}</div>
+            ))}
+            <Button
+                width="50px"
+                height="30px"
+                type="plain"
+                onClick={handleClick}
+            >
+                添加+
+            </Button>
+        </>
+    )
+}
+
+/**
+ * immer + reducer
+ */
 function listReducer(listItems: number[], action: ActionType) {
     switch (action.type) {
         case 'add':
@@ -61,9 +101,38 @@ function listReducer(listItems: number[], action: ActionType) {
     }
 }
 
+/**
+ * use-immer + reducer
+ */
+function listImmerReducer(draft: number[], action: ActionType) {
+    switch (action.type) {
+        case 'add':
+            draft.push(action.item)
+            break
+        case 'remove':
+            const removeIndex = draft.findIndex((item) => item === action.item)
+            if (removeIndex !== -1) draft.splice(removeIndex, 1)
+            break
+        case 'edit':
+            const index = draft.findIndex((item) => item === 1)
+            if (index !== -1) draft[index] = 9
+            break
+        case 'clear':
+            return [] // 或者 return produce(listItems, draft => draft.splice(0, draft.length))
+        default:
+            return draft
+    }
+}
+
 export function List() {
-    const [listItems, dispatch] = useReducer(listReducer, [1, 2, 3])
+    // immer 版本 reducer
+    // const [listItems, dispatch] = useReducer(listReducer, [1, 2, 3])
+
+    // use-immer 版本 reducer
+    const [listItems, dispatch] = useImmerReducer(listImmerReducer, [1, 2, 3])
+
     const { Button } = useGlobalComponents()
+
     const [text, setText] = useState(0)
 
     const handleAddList = (addItem: number) => {
@@ -121,10 +190,18 @@ export function List() {
                     </div>
                 </div>
             ))}
-            <div className="common-group" style={{
-                marginTop: '40px'
-            }}>
-                <input type="number" placeholder='Please Input...' value={text} onChange={(e) => setText(e.target.value)}/>
+            <div
+                className="common-group"
+                style={{
+                    marginTop: '40px'
+                }}
+            >
+                <input
+                    type="number"
+                    placeholder="Please Input..."
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                />
                 <Button
                     width="50px"
                     height="30px"
