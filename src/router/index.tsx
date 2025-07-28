@@ -1,11 +1,13 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom'
 import { lazy, ReactElement, Suspense } from 'react'
 import { Layout } from '../layout/Layout'
+import { Loading } from '../components/loading/Loading'
 
 // 懒加载组件
 const Home = lazy(() => import('../views/home/Home'))
 const About = lazy(() => import('../views/about/About'))
 const Login = lazy(() => import('../views/login/Login'))
+const List = lazy(() => import('../views/list/List'))
 
 // 路由元信息
 export interface RouteMeta {
@@ -74,6 +76,24 @@ const routesWithMeta: RoutesWithMeta = [
                 meta: {
                     name: 'about',
                     title: '关于',
+                    requireAuth: false
+                }
+            },
+            {
+                path: 'list',
+                id: 'list',
+                element: (
+                    <Suspense fallback={<Loading />}>
+                        <List />
+                    </Suspense>
+                ),
+                loader: () => ({
+                    name: 'list',
+                    title: '列表'
+                }),
+                meta: {
+                    name: 'list',
+                    title: '列表',
                     requireAuth: false
                 }
             }
