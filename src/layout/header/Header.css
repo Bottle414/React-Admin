@@ -1,11 +1,13 @@
 @import "../sidebar/Sidebar.css";
 
 :root {
+    --head-height: 50px;
     --header-width: 100%;
     --header-bg: #eee;
 }
 
 .header {
     width: var(--header-width);
+    height: var(--head-height);
     background-color: var(--header-bg);
 }

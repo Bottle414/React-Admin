@@ -1,7 +1,9 @@
+import { Loading } from "../../components/loading/Loading"
+
 function Home(){
     return (
         <>
-            home
+            <Loading />
         </>
     )
 }
