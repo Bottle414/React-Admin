@@ -1,0 +1,30 @@
+.button {
+    border-radius: 5px;
+
+    --button-plain-bg: #fff;
+    --button-priary-bg: lightblue;
+
+    --button-plain-active-bg: #ddd;
+    --button-plain-hover-bg: #eee;
+
+    --button-plain-border-color: #eee;
+    --button-primary-border-color: lightskyblue;
+}
+
+.is-plain {
+    background-color: var(--button-plain-bg);
+    border: 1px solid var(--button-plain-border-color);
+}
+
+.is-plain:hover {
+    background-color: var(--button-plain-hover-bg);
+}
+
+.is-plain:active {
+    background-color: var(--button-plain-active-bg);
+}
+
+.is-primary {
+    background-color: var(--button-priary-bg);
+    border: 1px solid var(--button-primary-border-color);
+}
