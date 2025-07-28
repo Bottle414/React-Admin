@@ -1,0 +1,11 @@
+@import "../sidebar/Sidebar.css";
+
+:root {
+    --header-width: 100%;
+    --header-bg: #eee;
+}
+
+.header {
+    width: var(--header-width);
+    background-color: var(--header-bg);
+}
