@@ -9,6 +9,7 @@ const About = lazy(() => import('../views/about/About'))
 const Login = lazy(() => import('../views/login/Login'))
 const List = lazy(() => import('../views/list/List'))
 const Infinite = lazy(() => import('../views/infinite/Infinite'))
+const KeepAliveTab = lazy(() => import('../views/keepalive/KeepAliveTab'))
 
 // 路由元信息
 export interface RouteMeta {
@@ -113,6 +114,24 @@ const routesWithMeta: RoutesWithMeta = [
                 meta: {
                     name: 'infinite',
                     title: '无限滚动',
+                    requireAuth: false
+                }
+            },
+            {
+                path: 'keepalive',
+                id: 'keepalive',
+                element: (
+                    <Suspense fallback={<Loading />}>
+                        <KeepAliveTab />
+                    </Suspense>
+                ),
+                loader: () => ({
+                    name: 'keepalive',
+                    title: '缓存组件'
+                }),
+                meta: {
+                    name: 'keepalive',
+                    title: '缓存组件',
                     requireAuth: false
                 }
             }
