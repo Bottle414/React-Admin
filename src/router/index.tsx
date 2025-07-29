@@ -8,6 +8,7 @@ const Home = lazy(() => import('../views/home/Home'))
 const About = lazy(() => import('../views/about/About'))
 const Login = lazy(() => import('../views/login/Login'))
 const List = lazy(() => import('../views/list/List'))
+const Infinite = lazy(() => import('../views/infinite/Infinite'))
 
 // 路由元信息
 export interface RouteMeta {
@@ -94,6 +95,24 @@ const routesWithMeta: RoutesWithMeta = [
                 meta: {
                     name: 'list',
                     title: '列表',
+                    requireAuth: false
+                }
+            },
+            {
+                path: 'infinite',
+                id: 'infinite',
+                element: (
+                    <Suspense fallback={<Loading />}>
+                        <Infinite />
+                    </Suspense>
+                ),
+                loader: () => ({
+                    name: 'infinite',
+                    title: '无限滚动'
+                }),
+                meta: {
+                    name: 'infinite',
+                    title: '无限滚动',
                     requireAuth: false
                 }
             }
